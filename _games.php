@@ -1,5 +1,17 @@
 <?php
 
+$board = array(
+  array(false, false, false, false, false, false, false, false, false),
+  array(false, false, false, false, false, false, false, false, false),
+  array(false, false, false, false, false, false, false, false, false),
+  array(false, false, false, false, false, false, false, false, false),
+  array(false, false, false, false, false, false, false, false, false),
+  array(false, false, false, false, false, false, false, false, false),
+  array(false, false, false, false, false, false, false, false, false),
+  array(false, false, false, false, false, false, false, false, false),
+  array(false, false, false, false, false, false, false, false, false),
+);
+
 $games = array(
   'easy' => array(),
   'medium' => array(),
@@ -25,6 +37,11 @@ $board = array(
 $games['easy'][] = new Sudoku\game($board, Sudoku\DIFF_EASY);
 
 
+
+
+
+
+
 $board = array(
   array(7, false, false, false, false, false, 9, false, false),
   array(false, false, 5, false, false, 1, false, false, 6),
@@ -38,5 +55,121 @@ $board = array(
 );
 $games['expert'][] = new Sudoku\game($board, Sudoku\DIFF_EXPERT);
 
+$board = array(
+  array(2, false, 3, false, 7, false, 9, false, 6),
+  array(false, false, 6, false, false, false, 4, false, false),
+  array(false, 7, false, 2, false, 8, false, 1, false),
+  array(1, false, false, false, 5, false, false, false, 3),
+  array(false, false, false, false, false, false, false, false, false),
+  array(false, 3, 9, false, false, false, 1, 4, false),
+  array(false, false, false, 6, false, 1, false, false, false),
+  array(false, 8, false, false, false, false, false, 6, false),
+  array(false, false, false, 5, false, 4, false, false, false),
+);
+$games['expert'][] = new Sudoku\game($board, Sudoku\DIFF_EXPERT);
 
+$board = array(
+  array(false, false, 6, false, false, false, 4, false, false),
+  array(5, false, 4, false, false, false, 8, false, 0),
+  array(false, false, false, 5, 4, 7, false, false, false),
+  array(false, 8, false, 9, 3, 4, false, 6, false),
+  array(false, false, false, false, false, false, false, false, false),
+  array(false, 4, false, 7, 2, 8, false, 9, false),
+  array(false, false, false, 6, 7, 3, false, false, false),
+  array(1, false, 8, false, false, false, 6, false, 7),
+  array(false, false, 9, false, false, false, 5, false, false),
+);
+$games['expert'][] = new Sudoku\game($board, Sudoku\DIFF_EXPERT);
+
+
+
+
+
+
+
+
+$board = array(
+  array(6, false, false, false, 8, false, false, 5, false),
+  array(false, false, 8, 9, false, false, false, 7, 6),
+  array(4, false, false, 3, false, false, false, false, 9),
+  array(false, false, 3, false, 1, false, 5, 2, false),
+  array(1, false, false, false, false, 2, false, false, 8),
+  array(false, false, 4, false, 3, false, 9, 6, false),
+  array(2, false, false, 1, false, false, false, false, 5),
+  array(false, false, 1, 4, false, false, false, 8, 2),
+  array(8, false, false, false, 2, false, false, 9, false),
+);
+$games['skilled'][] = new Sudoku\game($board, Sudoku\DIFF_SKILLED);
+
+$board = array(
+  array(false, false, false, 6, 1, 3, false, false, 8),
+  array(false, false, false, false, 7, false, 2, false, false),
+  array(false, false, 8, false, false, false, 1, false, false),
+  array(5, false, false, false, 2, 1, false, 7, false),
+  array(7, 3, false, 5, false, false, false, false, 4),
+  array(6, false, false, 3, false, false, false, 9, false),
+  array(false, 5, 3, false, false, false, 4, false, false),
+  array(false, false, false, 9, false, 4, false, false, 6),
+  array(4, false, false, false, 3, false, false, 8, false),
+);
+$games['skilled'][] = new Sudoku\game($board, Sudoku\DIFF_SKILLED);
+
+$board = array(
+  array(1, false, false, 2, false, 4, false, false, 8),
+  array(9, false, 6, false, false, false, 2, false, 7),
+  array(false, false, false, false, false, false, false, false, false),
+  array(false, false, 9, 5, 7, 2, 3, false, false),
+  array(false, false, false, false, false, false, false, false, false),
+  array(false, false, 2, 6, false, 3, 1, false, false),
+  array(2, false, 7, false, false, false, 9, false, 1),
+  array(false, false, false, 8, false, 9, false, false, false),
+  array(6, false, false, false, 1, false, false, false, 4),
+);
+$games['skilled'][] = new Sudoku\game($board, Sudoku\DIFF_SKILLED);
+
+
+
+
+
+
+
+
+
+
+
+$board = array(
+  array(3, false, false, false, false, 4, false, 6, false),
+  array(false, false, 8, false, false, false, 1, false, false),
+  array(false, 4, 9, 7, false, false, false, false, false),
+  array(false, false, 2, false, false, false, false, false, 9),
+  array(false, false, false, false, false, 1, 5, 2, false),
+  array(8, false, false, false, 5, 7, false, false, false),
+  array(false, 7, false, false, 3, false, false, false, false),
+  array(4, false, false, false, 1, false, false, 3, 7),
+  array(false, false, false, 6, false, false, false, 5, false),
+);
+$games['master'][] = new Sudoku\game($board, Sudoku\DIFF_MASTER);
+
+
+
+
+
+
+
+
+
+
+
+$board = array(
+  array(false, 1, false, false, false, 8, false, false, 9),
+  array(false, false, 5, false, 2, false, false, false, false),
+  array(false, false, 3, false, 5, 4, false, false, false),
+  array(5, false, false, false, false, 2, 7, false, 1),
+  array(false, false, 6, false, 3, false, 8, 9, false),
+  array(false, 8, false, 4, false, false, false, false, false),
+  array(2, false, 8, false, 7, false, 5, 3, false),
+  array(false, false, false, 2, false, false, false, false, 7),
+  array(false, false, 1, false, false, 5, false, false, false),
+);
+$games['genius'][] = new Sudoku\game($board, Sudoku\DIFF_GENIUS);
 

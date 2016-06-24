@@ -41,7 +41,7 @@ class display {
 
   public function printStats() {
     $str = '<p>Num Solved: ' . $this->solver->getNumSolved() . ' out of 81</p>';
-    $str .= '<p>Num Unknown Solved: ' . $this->solver->getUnknownNumberSolved() . ' out of ' . $this->solver->getUnknownNumber() . '</p>';
+    $str .= '<p>Num Unknown Solved: ' . $this->solver->getUnknownNumberSolved() . ' out of ' . $this->solver->getUnknownNumber() . ' (' . ($this->solver->getUnknownNumber() - $this->solver->getUnknownNumberSolved()) . ')</p>';
 
     return $str;
   }

@@ -13,10 +13,17 @@ const DIFF_GENIUS = 35;
 class game {
   private $board = array();
   private $difficulty = -1;
+  private $start_num = 0;
 
   function __construct($board, $difficulty) {
     $this->board = $board;
     $this->difficulty = $difficulty;
+
+    foreach ($this->board as $y => $row) {
+      foreach ($row as $x => $col) {
+        if ($col) $this->start_num++;
+      }
+    }
   }
 
   public function getDifficulty() {

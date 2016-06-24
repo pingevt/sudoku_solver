@@ -13,56 +13,24 @@ include_once('_games.php');
 
 $s = new Sudoku\solver();
 
-$s->initializeBoard($games['easy'][0]);
+//$s->initializeBoard($games['easy'][0]);           // 0
+//$s->initializeBoard($games['expert'][0]);         // 0
+//$s->initializeBoard($games['expert'][1]);         // 0
+$s->initializeBoard($games['expert'][2]);         // 34
+//$s->initializeBoard($games['skilled'][0]);        // 39
+//$s->initializeBoard($games['skilled'][1]);        // 47
+//$s->initializeBoard($games['skilled'][2]);        // 45
+//$s->initializeBoard($games['master'][0]);         // 39
+//$s->initializeBoard($games['genius'][0]);         // 39
 
 $display = new Sudoku\display($s);
-print $display->printBoard(TRUE);
+print $display->printBoard();
 
-$s->checkForSingleOption();
-$s->cleanHints();
-$s->checkForSingleOption();
-$s->checkForSingleOptionPresentInRow();
-$s->checkForSingleOptionPresentInCol();
-$s->checkForSingleOptionPresentInBlock();
-$s->checkForSingleOption();
-$s->checkForSingleOption();
-$s->checkForSingleOption();
+$s->_solve();
 print $display->printBoard(TRUE);
 print $display->printStats();
 print $display->printLog();
 
-//krumo($s->getBoard());
-
-
-
-
-$s2 = new Sudoku\solver();
-$s2->initializeBoard($games['expert'][0]);
-
-$display2 = new Sudoku\display($s2);
-print $display2->printBoard(TRUE);
-
-$s2->checkForSingleOption();
-$s2->cleanHints();
-$s2->checkForSingleOption();
-$s2->checkForSingleOption();
-$s2->checkForSingleOption();
-$s2->checkForSingleOption();
-$s2->checkForSingleOption();
-$s2->checkForSingleOption();
-$s2->checkForSingleOption();
-$s2->checkForSingleOption();
-print $display2->printBoard(TRUE);
-print $display2->printStats();
-
-$s2->checkForSingleOptionPresentInBlock();
-$s2->checkForSingleOption();
-$s2->checkForSingleOption();
-$s2->checkForSingleOption();
-$s2->checkForSingleOption();
-print $display2->printBoard(TRUE);
-print $display2->printStats();
-print $display2->printLog();
 
 ?>
 </body>

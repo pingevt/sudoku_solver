@@ -107,10 +107,54 @@ class solver {
     }
   }
 
+  private function removeOptionFromBlockCol($bx, $by, $col, $val) {
+    for ($y=0;$y<3;$y++) {
+      $y_val = $y + 3*$by;
+      $this->removeOptionOnCell($col, $y_val, $val);
+    }
+  }
+
+  private function removeOptionFromBlockRow($bx, $by, $row, $val) {
+    for ($x=0;$x<3;$x++) {
+      $x_val = $x + 3*$bx;
+      $this->removeOptionOnCell($x_val, $row, $val);
+    }
+  }
+
 
   /**
    * Solving functions
    */
+  public function _solve() {
+    $solve_funcs = array(
+      'checkForSingleOption',
+      'checkForSingleOptionPresentInRow',
+      'checkForSingleOptionPresentInCol',
+      'checkForSingleOptionPresentInBlock',
+      'checkForKnockoutRowCol',
+      'checkForDoublesRow',
+      'checkForDoublesCol',
+    );
+
+    for ($i = 0; $i < count($solve_funcs); $i++) {
+
+      $tries = 0;
+      for ($z = $i; $z >= 0; $z--) {
+        do {
+          $count = $this->{$solve_funcs[$z]}();
+          $tries++;
+          if ($this->numSolved >= 81) {
+            break 3;
+          }
+        }
+        while ($count > 0);
+
+        //if ($tries==1)  break 1;
+      }
+    }
+
+    return TRUE;
+  }
 
   public function checkForSingleOption() {
     $number_solved = 0;
@@ -187,7 +231,6 @@ class solver {
     for ($bx=0;$bx<3;$bx++) {
       for ($by=0;$by<3;$by++) {
         for ($o=1; $o<=9; $o++) {
-          $count = 0;
           $last_coord = array();
 
           for ($x=0;$x<3;$x++) {
@@ -204,6 +247,82 @@ class solver {
           if (count($last_coord) == 1) {
             $number_solved++;
             $this->setValueOnCell($last_coord[0][0], $last_coord[0][1], $o);
+          }
+        }
+      }
+    }
+
+    return $number_solved;
+  }
+
+  public function checkForKnockoutRowCol() {
+    $number_solved = 0;
+    $this->log[] = 'checkForKnockoutRowCol() run';
+
+    for ($bx=0;$bx<3;$bx++) {
+      for ($by=0;$by<3;$by++) {
+        for ($o=1; $o<=9; $o++) {
+          $coords = array();
+
+          for ($x=0;$x<3;$x++) {
+            for ($y=0;$y<3;$y++) {
+              $x_val = $x + 3*$bx;
+              $y_val = $y + 3*$by;
+
+              if (in_array($o, $this->board[$x_val][$y_val]['options'])) {
+                $coords[] = array($x_val, $y_val);
+              }
+            }
+          }
+
+          if (count($coords) > 1) {
+            $cols = array();
+            $rows = array();
+
+            foreach ($coords as $coord) {
+              $cols[$coord[0]] = TRUE;
+              $rows[$coord[1]] = TRUE;
+            }
+
+            if (count($cols) == 1) {
+              $col = current(array_keys($cols));
+              $this->removeOptionFromBlockCol($bx, (($by+1)%3), $col, $o);
+              $this->removeOptionFromBlockCol($bx, (($by+2)%3), $col, $o);
+            }
+
+            if (count($rows) == 1) {
+              $row = current(array_keys($rows));
+              $this->removeOptionFromBlockRow((($bx+1)%3), $by, $row, $o);
+              $this->removeOptionFromBlockRow((($bx+2)%3), $by, $row, $o);
+            }
+          }
+        }
+      }
+    }
+
+    return $number_solved;
+  }
+
+  public function checkForDoublesRow() {
+    $number_solved = 0;
+    $this->log[] = 'checkForDoublesRow() run';
+
+    for ($y=0;$y<9;$y++) {
+      for ($x=0;$x<9;$x++) {
+        if (!empty($this->board[$x][$y]['options']) && count($this->board[$x][$y]['options']) == 2) {
+          $opts = $this->board[$x][$y]['options'];
+          for ($x2=($x+1);$x2<9;$x2++) {
+            if (!empty($this->board[$x2][$y]['options']) && count($this->board[$x2][$y]['options']) == 2) {
+              if ($this->board[$x][$y]['options'] === $this->board[$x2][$y]['options']) {
+print '=====<br >';
+print $x . ', ' . $y . '<br >';
+print $x2 . ', ' . $y . '<br >';
+print '<pre>';
+print_r($this->board[$x][$y]['options']);
+print_r($this->board[$x2][$y]['options']);
+print '</pre>';
+              }
+            }
           }
         }
       }
