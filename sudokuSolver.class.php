@@ -1,6 +1,9 @@
 <?php
 namespace Sudoku;
 
+include_once 'sudokuDisplay.class.php';
+include_once 'sudokuGame.class.php';
+
 class solver {
   private $board = array();
   private $initialized = FALSE;
@@ -23,9 +26,9 @@ class solver {
     }
   }
 
-  public function initializeBoard(array $items) {
+  public function initializeBoard($game) {
     if (!$this->initialized) {
-      foreach ($items as $y => $col) {
+      foreach ($game->getBoard() as $y => $col) {
         foreach ($col as $x => $val) {
           if ($val) {
             $this->setValueOnCell($x, $y, $val, TRUE);
