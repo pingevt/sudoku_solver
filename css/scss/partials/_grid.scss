@@ -1,0 +1,49 @@
+
+
+.board {
+  margin: 10px;
+  border: 1px solid $border-color;
+
+  @include font-size(18);
+  .row {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+
+    &.row-6,
+    &.row-3 {
+      .cell {
+        border-bottom-width: 2px;
+      }
+    }
+
+    .cell {
+      display: table-cell;
+      float: none;
+      vertical-align: top;
+      padding: 5px;
+
+      border: 1px solid $border-color;
+
+      text-align: center;
+
+      &[class*="cell-3"],
+      &[class*="cell-6"] {
+        border-left-width: 2px;
+      }
+
+      span.value {
+        color: $value-color;
+        &.starting-val {
+          font-weight: bold;
+          color: $value-start-color;
+        }
+      }
+
+      .hints {
+        color: $hint-color;
+        @include font-size(12);
+      }
+    }
+  }
+}
