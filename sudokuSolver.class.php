@@ -84,25 +84,31 @@ class solver {
     }
   }
 
-  private function removeOptionFromRow($y, $val) {
+  private function removeOptionFromRow($y, $val, $exclusions = array()) {
     for ($x=0; $x<9; $x++) {
-      $this->removeOptionOnCell($x, $y, $val);
+      if (!in_array(array($x, $y), $exclusions)) {
+        $this->removeOptionOnCell($x, $y, $val);
+      }
     }
   }
 
-  private function removeOptionFromCol($x, $val) {
+  private function removeOptionFromCol($x, $val, $exclusions = array()) {
     for ($y=0; $y<9; $y++) {
-      $this->removeOptionOnCell($x, $y, $val);
+      if (!in_array(array($x, $y), $exclusions)) {
+        $this->removeOptionOnCell($x, $y, $val);
+      }
     }
   }
 
-  private function removeOptionFromBlock($bx, $by, $val) {
+  private function removeOptionFromBlock($bx, $by, $val, $exclusions = array()) {
     for ($x=0;$x<3;$x++) {
       for ($y=0;$y<3;$y++) {
         $x_val = $x + 3*$bx;
         $y_val = $y + 3*$by;
 
-        $this->removeOptionOnCell($x_val, $y_val, $val);
+        if (!in_array(array($x_val, $y_val), $exclusions)) {
+          $this->removeOptionOnCell($x_val, $y_val, $val);
+        }
       }
     }
   }
@@ -134,6 +140,8 @@ class solver {
       'checkForKnockoutRowCol',
       'checkForDoublesRow',
       'checkForDoublesCol',
+      'checkForDoublesBlock',
+      'checkForXYWingKnockoutRows',
     );
 
     for ($i = 0; $i < count($solve_funcs); $i++) {
@@ -314,18 +322,107 @@ class solver {
           for ($x2=($x+1);$x2<9;$x2++) {
             if (!empty($this->board[$x2][$y]['options']) && count($this->board[$x2][$y]['options']) == 2) {
               if ($this->board[$x][$y]['options'] === $this->board[$x2][$y]['options']) {
-print '=====<br >';
-print $x . ', ' . $y . '<br >';
-print $x2 . ', ' . $y . '<br >';
-print '<pre>';
-print_r($this->board[$x][$y]['options']);
-print_r($this->board[$x2][$y]['options']);
-print '</pre>';
+                // remove these two options from row.
+                $this->removeOptionFromRow($y, $this->board[$x][$y]['options'][0], array(
+                  array($x, $y),
+                  array($x2, $y),
+                ));
+                $this->removeOptionFromRow($y, $this->board[$x][$y]['options'][1], array(
+                  array($x, $y),
+                  array($x2, $y),
+                ));
               }
             }
           }
         }
       }
+    }
+
+    return $number_solved;
+  }
+
+  public function checkForDoublesCol() {
+    $number_solved = 0;
+    $this->log[] = 'checkForDoublesRow() run';
+
+    for ($y=0;$y<9;$y++) {
+      for ($x=0;$x<9;$x++) {
+        if (!empty($this->board[$x][$y]['options']) && count($this->board[$x][$y]['options']) == 2) {
+          $opts = $this->board[$x][$y]['options'];
+
+          for ($y2=($y+1);$y2<9;$y2++) {
+            if (!empty($this->board[$x][$y2]['options']) && count($this->board[$x][$y2]['options']) == 2) {
+              if ($this->board[$x][$y]['options'] === $this->board[$x][$y2]['options']) {
+                // remove these two options from row.
+                $this->removeOptionFromCol($x, $this->board[$x][$y]['options'][0], array(
+                  array($x, $y),
+                  array($x, $y2),
+                ));
+                $this->removeOptionFromCol($x, $this->board[$x][$y]['options'][1], array(
+                  array($x, $y),
+                  array($x, $y2),
+                ));
+              }
+            }
+          }
+        }
+      }
+    }
+
+    return $number_solved;
+  }
+
+  public function checkForDoublesBlock() {
+    $number_solved = 0;
+    $this->log[] = 'checkForDoublesBlock() run';
+
+    for ($bx=0; $bx<3; $bx++) {
+      for ($by=0; $by<3; $by++) {
+
+        $block_cells = array();
+
+        for ($x=0;$x<3;$x++) {
+          $x_val = $x + 3*$bx;
+          for ($y=0;$y<3;$y++) {
+            $y_val = $y + 3*$by;
+
+            if (!empty($this->board[$x_val][$y_val]['options']) && count($this->board[$x_val][$y_val]['options']) == 2) {
+              $block_cells[] = array(
+                'coord' => array($x_val, $y_val),
+                'options' => $this->board[$x_val][$y_val]['options'],
+              );
+            }
+          }
+        }
+
+        if (!empty($block_cells) && count($block_cells) >= 2) {
+
+          for ($bn=0; $bn<count($block_cells); $bn++) {
+
+            for ($bn2=$bn+1; $bn2<count($block_cells); $bn2++) {
+              if ($block_cells[$bn]['options'] == $block_cells[$bn2]['options']) {
+
+                $this->removeOptionFromBlock($bx, $by, $block_cells[$bn]['options'][0], array($block_cells[$bn]['coord'], $block_cells[$bn2]['coord']));
+                $this->removeOptionFromBlock($bx, $by, $block_cells[$bn]['options'][1], array($block_cells[$bn]['coord'], $block_cells[$bn2]['coord']));
+
+              }
+            }
+          }
+        }
+      }
+    }
+
+    return $number_solved;
+  }
+
+  public function checkForXYWingKnockoutRows() {
+    $number_solved = 0;
+    $this->log[] = 'checkForXYWingKnockoutRows() run';
+
+    for ($n=1; $n<=9; $n++) {
+
+
+
     }
 
     return $number_solved;

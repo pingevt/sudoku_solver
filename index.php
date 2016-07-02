@@ -16,8 +16,8 @@ $s = new Sudoku\solver();
 //$s->initializeBoard($games['easy'][0]);           // 0
 //$s->initializeBoard($games['expert'][0]);         // 0
 //$s->initializeBoard($games['expert'][1]);         // 0
-$s->initializeBoard($games['expert'][2]);         // 34
-//$s->initializeBoard($games['skilled'][0]);        // 39
+//$s->initializeBoard($games['expert'][2]);         // 34 | 19
+$s->initializeBoard($games['skilled'][0]);        // 39 | 38
 //$s->initializeBoard($games['skilled'][1]);        // 47
 //$s->initializeBoard($games['skilled'][2]);        // 45
 //$s->initializeBoard($games['master'][0]);         // 39
