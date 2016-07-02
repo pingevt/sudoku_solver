@@ -17,9 +17,10 @@ $s = new Sudoku\solver();
 //$s->initializeBoard($games['expert'][0]);         // 0
 //$s->initializeBoard($games['expert'][1]);         // 0
 //$s->initializeBoard($games['expert'][2]);         // 34 | 19
-$s->initializeBoard($games['skilled'][0]);        // 39 | 38
+//$s->initializeBoard($games['skilled'][0]);        // 39 | 38
 //$s->initializeBoard($games['skilled'][1]);        // 47
 //$s->initializeBoard($games['skilled'][2]);        // 45
+$s->initializeBoard($games['adept'][0]);          // 37 | 30 | 0 --- XY WING
 //$s->initializeBoard($games['master'][0]);         // 39
 //$s->initializeBoard($games['genius'][0]);         // 39
 
@@ -31,6 +32,10 @@ print $display->printBoard(TRUE);
 print $display->printStats();
 print $display->printLog();
 
+$s->_solve();
+print $display->printBoard(TRUE);
+print $display->printStats();
+print $display->printLog();
 
 ?>
 </body>

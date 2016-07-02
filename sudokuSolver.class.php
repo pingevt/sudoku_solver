@@ -420,9 +420,39 @@ class solver {
     $this->log[] = 'checkForXYWingKnockoutRows() run';
 
     for ($n=1; $n<=9; $n++) {
+      $num_possibilities_by_row = array();
 
+      for ($y=0;$y<9;$y++) {
+        for ($x=0;$x<9;$x++) {
+          if (in_array($n, $this->board[$x][$y]['options'])) {
+            $num_possibilities_by_row[$y][] = $x;
+          }
+        }
+      }
 
+      foreach ($num_possibilities_by_row as $y => &$row_data) {
+        if (count($row_data) == 2) {
+          $keys = array_keys($num_possibilities_by_row, $row_data);
+          if (count($keys) == 2) {
+            unset($num_possibilities_by_row[$keys[0]]);
+            unset($num_possibilities_by_row[$keys[1]]);
 
+            $this->removeOptionFromCol($row_data[0], $n, array(
+              array($row_data[0], $y),
+              array($row_data[0], $keys[1]),
+              array($row_data[1], $y),
+              array($row_data[1], $keys[1]),
+            ));
+
+            $this->removeOptionFromCol($row_data[1], $n, array(
+              array($row_data[0], $y),
+              array($row_data[0], $keys[1]),
+              array($row_data[1], $y),
+              array($row_data[1], $keys[1]),
+            ));
+          }
+        }
+      }
     }
 
     return $number_solved;
