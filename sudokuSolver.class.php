@@ -142,6 +142,7 @@ class solver {
       'checkForDoublesCol',
       'checkForDoublesBlock',
       'checkForXYWingKnockoutRows',
+      'checkForXYWingKnockoutCols',
     );
 
     for ($i = 0; $i < count($solve_funcs); $i++) {
@@ -450,6 +451,52 @@ class solver {
               array($row_data[1], $y),
               array($row_data[1], $keys[1]),
             ));
+
+            //$number_solved++;
+          }
+        }
+      }
+    }
+
+    return $number_solved;
+  }
+
+  public function checkForXYWingKnockoutCols() {
+    $number_solved = 0;
+    $this->log[] = 'checkForXYWingKnockoutCols() run';
+
+    for ($n=1; $n<=9; $n++) {
+      $num_possibilities_by_col = array();
+
+      for ($y=0;$y<9;$y++) {
+        for ($x=0;$x<9;$x++) {
+          if (in_array($n, $this->board[$x][$y]['options'])) {
+            $num_possibilities_by_col[$x][] = $y;
+          }
+        }
+      }
+
+      foreach ($num_possibilities_by_col as $x => &$col_data) {
+        if (count($col_data) == 2) {
+          $keys = array_keys($num_possibilities_by_col, $col_data);
+          if (count($keys) == 2) {
+            unset($num_possibilities_by_col[$keys[0]]);
+            unset($num_possibilities_by_col[$keys[1]]);
+
+            $this->removeOptionFromRow($col_data[0], $n, array(
+              array($x, $col_data[0]),
+              array($keys[1], $col_data[0]),
+              array($x, $col_data[1]),
+              array($keys[1], $col_data[1]),
+            ));
+
+            $this->removeOptionFromRow($col_data[1], $n, array(
+              array($x, $col_data[0]),
+              array($keys[1], $col_data[0]),
+              array($x, $col_data[1]),
+              array($keys[1], $col_data[1]),
+            ));
+            //$number_solved++;
           }
         }
       }
