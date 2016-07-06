@@ -127,6 +127,19 @@ $board = array(
 );
 $games['skilled'][] = new Sudoku\game($board, Sudoku\DIFF_SKILLED);
 
+$board = array(
+  array(false, false, 3, 9, false, 2, 7, false, false),
+  array(false, 4, false, false, false, false, false, 8, false),
+  array(9, false, false, false, 4, false, false, false, 5),
+  array(false, 3, 5, 6, false, 9, 2, 4, false),
+  array(false, false, false, false, false, false, false, false, false),
+  array(false, 7, 9, 8, false, 4, 6, 5, false),
+  array(7, false, false, false, 3, false, false, false, 2),
+  array(false, 5, false, false, false, false, false, 7, false),
+  array(false, false, 8, 5, false, 7, 1, false, false),
+);
+$games['skilled'][] = new Sudoku\game($board, Sudoku\DIFF_SKILLED);
+
 
 
 
